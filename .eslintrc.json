@@ -1,0 +1,85 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": { "jsx": true, "destructuring": true },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": { "project": "tsconfig.base.json" },
+      "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    },
+    "react": {
+      "fragment": "Fragment",
+      "version": "detect"
+    }
+  },
+  "globals": {
+    "_": false,
+    "$": false,
+    "Q": false,
+    "moment": false,
+    "_router": false,
+    "ga": false,
+    "__isDev": false,
+    "cordova": false,
+    "google": false,
+    "device": false,
+    "daum": false,
+    "naver": false,
+    "FB": false,
+    "IMP": false
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "hogangnono/react",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["@typescript-eslint", "prettier", "simple-import-sort"],
+  "rules": {
+    "prettier/prettier": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "no-use-before-define": "off",
+    "react/jsx-filename-extension": "off",
+    "semi": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-extra-semi": "error",
+    "@typescript-eslint/no-empty-function": "off",
+    "no-bitwise": "off",
+    "no-multi-assign": "warn",
+    "no-unused-vars": "warn",
+    "no-prototype-builtins": "warn",
+    "babel/camelcase": "off",
+    "react/display-name": "warn",
+    "no-nested-ternary": "off",
+    "react/no-unescaped-entities": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.stories.tsx",
+          "./webpack.config.js",
+          "./webpack.*.config.js",
+          "./transpile.js"
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "error"
+      }
+    }
+  ]
+}
