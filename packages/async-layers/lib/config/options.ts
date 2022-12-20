@@ -4,6 +4,7 @@ export interface DragOptions {
 }
 
 export interface Options {
+  type: 'dialog' | 'bottomsheet'
   dimmed: boolean
   transitionDelay: number
   draggable: boolean
@@ -12,6 +13,7 @@ export interface Options {
 }
 
 export const OPTIONS: Options = {
+  type: 'bottomsheet',
   dimmed: true,
   transitionDelay: 350,
   draggable: false,

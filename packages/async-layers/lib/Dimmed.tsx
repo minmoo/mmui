@@ -11,6 +11,17 @@ export const Container = styled.div`
   background-color: #484848;
   z-index: 1;
   opacity: 0.3;
+
+  animation: show 225ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  @keyframes show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 0.3;
+    }
+  }
 `
 
 interface DimmedProps {

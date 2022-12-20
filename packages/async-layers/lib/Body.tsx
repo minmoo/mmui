@@ -19,7 +19,7 @@ const Wrapper = styled.div<{ delay: number; height?: number }>`
     `}
 
   position: fixed;
-  z-index: 1;
+  z-index: 100;
   bottom: 0;
 
   background-color: #fff;

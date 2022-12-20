@@ -11,7 +11,7 @@ export default function Layers() {
 }
 
 function Example() {
-  const { show } = useLayers(Content, { draggable: true })
+  const { show } = useLayers(Content, { type: 'dialog' })
   return (
     <>
       <Head>
@@ -38,10 +38,26 @@ function Example() {
 const Box = styled.div`
   display: flex;
   width: 500px;
-  height: 100px;
+  height: 200px;
   background: blue;
 `
 
 function Content() {
-  return <Box />
+  const { show } = useLayers(Content2, { type: 'bottomsheet' })
+  return (
+    <>
+      <button onClick={() => show()}>a</button>
+      <Box />
+    </>
+  )
+}
+
+function Content2() {
+  const { show } = useLayers(Content, { type: 'dialog' })
+  return (
+    <>
+      <button onClick={() => show()}>b</button>
+      <Box />
+    </>
+  )
 }

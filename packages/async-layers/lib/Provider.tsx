@@ -9,6 +9,7 @@ import {
 } from 'react'
 import _ from 'underscore'
 import { OPTIONS, Options } from './config/options'
+import { Dialog } from './Dialog'
 import { Layout } from './Layout'
 
 export interface ContentProps<Props = void, Response = undefined> {
@@ -58,7 +59,7 @@ const layerMap = new Map<string, Layer>()
 
 /**
  * 전역 변수를 활용한 Provider
- * @param param0
+ * @param options
  */
 export const Provider = ({ children, options }: ProviderProps) => {
   const forceUpdate = useState({})[1]
@@ -154,10 +155,22 @@ export const Provider = ({ children, options }: ProviderProps) => {
             resolve(value)
           }
 
+          if (options.type === 'bottomsheet') {
+            return (
+              <Layout
+                key={key}
+                open={isOpen}
+                onClose={onClose}
+                options={options}
+              >
+                <C open={isOpen} onClose={onClose} props={props} />
+              </Layout>
+            )
+          }
           return (
-            <Layout key={key} open={isOpen} onClose={onClose} options={options}>
+            <Dialog key={key} open={isOpen} onClose={onClose} options={options}>
               <C open={isOpen} onClose={onClose} props={props} />
-            </Layout>
+            </Dialog>
           )
         } else {
           return null
