@@ -1,27 +1,27 @@
 import styled from '@emotion/styled'
 import { ReactNode, useEffect, useRef } from 'react'
 import _ from 'underscore'
-// import { MAX_HEIGHT, MIN_Y } from "../lib/useDrag2";
-// import { BottomSheetHeader } from "./Header";
+import { Header } from './Header'
+import { DragOptions } from './config/options'
+import { css } from '@emotion/react'
 
-/* DRAG 용*/
-/* 
-  height: ${MAX_HEIGHT}px; 
-  */
-
-//TODO height 추가되어야 한다 동적으로
-const Wrapper = styled.div<{ delay: number }>`
+const Wrapper = styled.div<{ delay: number; height?: number }>`
   display: flex;
   flex-direction: column;
   width: 100%;
   max-height: 100%;
 
+  /* DRAG 용*/
+  ${({ height = 0 }) =>
+    height > 0 &&
+    css`
+      height: ${height}px;
+    `}
+
   position: fixed;
   z-index: 1;
   bottom: 0;
-  /* 
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px; */
+
   background-color: #fff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
 
@@ -31,7 +31,7 @@ const Wrapper = styled.div<{ delay: number }>`
   will-change: transform;
 `
 
-const BottomSheetContent = styled.div`
+const Content = styled.div`
   /* content안에서 scroll을 만드는게 더 낫다 */
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
@@ -44,9 +44,18 @@ interface BodyProps {
   open: boolean
   setMount: (mount: boolean) => void
   delay: number
+  draggable: boolean
+  dragOptions: DragOptions
 }
 
-export const Body = ({ children, open, setMount, delay }: BodyProps) => {
+export const Body = ({
+  children,
+  open,
+  setMount,
+  delay,
+  draggable,
+  dragOptions,
+}: BodyProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   const handleTransitionEnd = () => {
@@ -66,8 +75,11 @@ export const Body = ({ children, open, setMount, delay }: BodyProps) => {
     // Mount
     _.delay(() => {
       if (wrapperRef.current) {
-        wrapperRef.current.style.transform = 'translateY(0)'
-        // wrapperRef.current.style.transform = `translateY(${MIN_Y}px)`;
+        const translateY = draggable
+          ? window.innerHeight - dragOptions.minHeight
+          : 0
+
+        wrapperRef.current.style.transform = `translateY(${translateY}px)`
       }
     })
   }, [])
@@ -77,9 +89,16 @@ export const Body = ({ children, open, setMount, delay }: BodyProps) => {
       ref={wrapperRef}
       onTransitionEnd={handleTransitionEnd}
       delay={delay}
+      height={
+        'innerHeight' in window && draggable
+          ? window.innerHeight - dragOptions.minY
+          : 0
+      }
     >
-      {/* <BottomSheetHeader wrapperRef={wrapperRef} /> */}
-      <BottomSheetContent>{children}</BottomSheetContent>
+      {draggable && (
+        <Header wrapperRef={wrapperRef} dragOptions={dragOptions} />
+      )}
+      <Content>{children}</Content>
     </Wrapper>
   )
 }

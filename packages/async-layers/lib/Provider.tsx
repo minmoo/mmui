@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react'
 import _ from 'underscore'
-import { OPTIONS, Options } from './options'
+import { OPTIONS, Options } from './config/options'
 import { Layout } from './Layout'
 
 export interface ContentProps<Props = void, Response = undefined> {
@@ -27,7 +27,6 @@ interface Layer {
   resolve?: (value: unknown) => void
 }
 
-//CONTEXT
 export interface ContextState<P, R> {
   register: (obj: ContentComponent<P, R>, opts?: Partial<Options>) => string
   unregister: (id: string) => void

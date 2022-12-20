@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 
 import { Body } from './Body'
-import { Options } from './options'
+import { Options } from './config/options'
 import { Dimmed } from './Dimmed'
 
 interface LayoutProps {
@@ -26,8 +26,19 @@ export const Layout = ({ children, open, onClose, options }: LayoutProps) => {
 
   return (
     <>
-      {options.cover && <Dimmed onClose={onClose} />}
-      <Body open={open} setMount={setMount} delay={options.transitionDelay}>
+      {options.dimmed && (
+        <Dimmed
+          onClose={onClose}
+          scrollLockElement={options.scrollLockElement}
+        />
+      )}
+      <Body
+        open={open}
+        setMount={setMount}
+        delay={options.transitionDelay}
+        draggable={options.draggable}
+        dragOptions={options.dragOptions}
+      >
         {children}
       </Body>
     </>

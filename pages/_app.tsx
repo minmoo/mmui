@@ -1,5 +1,4 @@
 import type { AppProps } from 'next/app'
-import { AsyncLayersProvider } from '../lib'
 import { css, Global } from '@emotion/react'
 
 const global = css`
@@ -13,9 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Global styles={global} />
-      <AsyncLayersProvider>
-        <Component {...pageProps} />
-      </AsyncLayersProvider>
+      <Component {...pageProps} />
     </>
   )
 }

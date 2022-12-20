@@ -15,17 +15,18 @@ export const Container = styled.div`
 
 interface DimmedProps {
   onClose: (value: unknown) => void
+  scrollLockElement: HTMLElement | null
 }
 
-export const Dimmed = ({ onClose }: DimmedProps) => {
+export const Dimmed = ({ onClose, scrollLockElement }: DimmedProps) => {
   const handleClick = () => {
     onClose('dimmed')
   }
 
   useEffect(() => {
-    lockScroll()
+    lockScroll(scrollLockElement)
     return () => {
-      unlockScroll()
+      unlockScroll(scrollLockElement)
     }
   }, [])
 

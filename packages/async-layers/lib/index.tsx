@@ -1,2 +1,2 @@
-export { useBottomSheet, useBottomSheetHide } from './hooks'
+export { useLayers, useLayersHide } from './hooks/useLayers'
 export { Provider as AsyncLayersProvider } from './Provider'

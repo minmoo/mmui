@@ -1,8 +1,8 @@
 import { useRef, useEffect, useContext, Context } from 'react'
-import { Options } from './options'
-import { ContentComponent, ContextState, LayerContext } from './Provider'
+import { Options } from '../config/options'
+import { ContentComponent, ContextState, LayerContext } from '../Provider'
 
-export function useBottomSheet<P, R>(
+export function useLayers<P, R>(
   component: ContentComponent<P, R>,
   options?: Partial<Options>,
 ) {
@@ -21,7 +21,7 @@ export function useBottomSheet<P, R>(
     }
   }, [])
 
-  const show = async (props: P): Promise<R | undefined> => {
+  const show = async (props?: P): Promise<R | undefined> => {
     if (id.current) {
       return ctx.show(id.current, props)
     } else {
@@ -44,7 +44,7 @@ export function useBottomSheet<P, R>(
   return { show, hide, hideAll }
 }
 
-export function useBottomSheetHide() {
+export function useLayersHide() {
   const ctx = useContext(LayerContext)
 
   const hideAll = () => {
