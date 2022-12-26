@@ -11,7 +11,10 @@ export default function Layers() {
 }
 
 function Example() {
-  const { show } = useLayers(Content, { type: 'dialog' })
+  const { show } = useLayers(Content, {
+    type: 'center',
+    transitionDelay: 1000,
+  })
   return (
     <>
       <Head>
@@ -44,15 +47,18 @@ const Box = styled.div`
 const Box2 = styled.div`
   display: flex;
 
-  height: 3000px;
+  height: 300px;
   width: 600px;
   background: pink;
 `
 
 function Content() {
-  const { show } = useLayers(Content2, { type: 'bottomsheet' })
+  const { show } = useLayers(Content2, {
+    type: 'center',
+  })
   return (
     <>
+      <h2>Content</h2>
       <button onClick={() => show()}>a</button>
       <Box />
     </>
@@ -60,9 +66,14 @@ function Content() {
 }
 
 function Content2() {
-  const { show } = useLayers(Content, { type: 'dialog' })
+  const { show } = useLayers(Content, {
+    type: 'bottom',
+    transitionDelay: 0,
+    draggable: true,
+  })
   return (
     <div>
+      <h2>Content2</h2>
       <button onClick={() => show()}>b</button>
       <Box2 />
     </div>

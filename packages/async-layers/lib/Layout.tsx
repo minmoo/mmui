@@ -13,6 +13,7 @@ interface LayoutProps {
 
 export const Layout = ({ children, open, onClose, options }: LayoutProps) => {
   const [mount, setMount] = useState(false)
+  const { dimmed, scrollLockElement, ...others } = options
 
   useEffect(() => {
     if (open) {
@@ -26,19 +27,10 @@ export const Layout = ({ children, open, onClose, options }: LayoutProps) => {
 
   return (
     <>
-      {options.dimmed && (
-        <Dimmed
-          onClose={onClose}
-          scrollLockElement={options.scrollLockElement}
-        />
+      {dimmed && (
+        <Dimmed onClose={onClose} scrollLockElement={scrollLockElement} />
       )}
-      <Body
-        open={open}
-        setMount={setMount}
-        delay={options.transitionDelay}
-        draggable={options.draggable}
-        dragOptions={options.dragOptions}
-      >
+      <Body open={open} setMount={setMount} options={others}>
         {children}
       </Body>
     </>

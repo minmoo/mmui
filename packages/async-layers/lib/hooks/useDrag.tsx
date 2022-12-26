@@ -1,6 +1,6 @@
 import { MouseEvent, RefObject, TouchEvent, useEffect, useRef } from 'react'
 import _ from 'underscore'
-import { DragOptions, OPTIONS } from '../config/options'
+import { DEFAULT_VALUE, DragOptions } from '../config/options'
 import { isMobile } from '../util/deviceCheck'
 
 const isDragEvent = (e: any): e is DragEvent => {
@@ -34,8 +34,8 @@ export const useDrag = (
   targetRef: RefObject<HTMLElement>,
   contentRef: RefObject<HTMLElement>,
   {
-    minHeight = OPTIONS.dragOptions.minHeight,
-    minY = OPTIONS.dragOptions.minY,
+    minHeight = DEFAULT_VALUE.MIN_HEIGHT,
+    minY = DEFAULT_VALUE.MIN_Y,
   }: DragOptions,
   enable: boolean,
 ) => {

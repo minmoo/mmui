@@ -8,8 +8,8 @@ import {
   useState,
 } from 'react'
 import _ from 'underscore'
-import { OPTIONS, Options } from './config/options'
-import { Dialog } from './Dialog'
+import { DEFAULT_VALUE, Options } from './config/options'
+
 import { Layout } from './Layout'
 
 export interface ContentProps<Props = void, Response = undefined> {
@@ -53,7 +53,17 @@ interface ProviderProps {
   options?: Partial<Options>
 }
 
-const defaultOptions = OPTIONS
+const defaultOptions: Options = {
+  position: DEFAULT_VALUE.POSITION,
+  dimmed: DEFAULT_VALUE.DIMMED,
+  transitionDelay: DEFAULT_VALUE.TRANSITION_DELAY,
+  draggable: DEFAULT_VALUE.DRAGGABLE,
+  dragOptions: {
+    minHeight: DEFAULT_VALUE.MIN_HEIGHT,
+    minY: DEFAULT_VALUE.MIN_Y,
+  },
+  scrollLockElement: DEFAULT_VALUE.SCROLL_LOCK_ELEMENT,
+}
 
 const layerMap = new Map<string, Layer>()
 
@@ -155,22 +165,10 @@ export const Provider = ({ children, options }: ProviderProps) => {
             resolve(value)
           }
 
-          if (options.type === 'bottomsheet') {
-            return (
-              <Layout
-                key={key}
-                open={isOpen}
-                onClose={onClose}
-                options={options}
-              >
-                <C open={isOpen} onClose={onClose} props={props} />
-              </Layout>
-            )
-          }
           return (
-            <Dialog key={key} open={isOpen} onClose={onClose} options={options}>
+            <Layout key={key} open={isOpen} onClose={onClose} options={options}>
               <C open={isOpen} onClose={onClose} props={props} />
-            </Dialog>
+            </Layout>
           )
         } else {
           return null

@@ -1,39 +1,101 @@
 import styled from '@emotion/styled'
-import { ReactNode, useEffect, useRef } from 'react'
+import { ReactNode, useEffect, useMemo, useRef } from 'react'
 import _ from 'underscore'
-import { DragOptions } from './config/options'
-import { css } from '@emotion/react'
+import {
+  LayerPosition,
+  BottomLayerOptions,
+  DEFAULT_VALUE,
+} from './config/options'
+import { css, SerializedStyles } from '@emotion/react'
 import { useDrag } from './hooks/useDrag'
+import { Options } from './config/options'
+
+const getTransformText: {
+  [key in Exclude<LayerPosition, 'center'>]: {
+    show: (height?: number) => string
+    hide: string
+  }
+} = {
+  bottom: {
+    show: (height = 0) =>
+      height > 0 ? `translateY(${height}px)` : 'translateY(0px)',
+    hide: 'translateY(100%)',
+  },
+  top: {
+    show: () => 'translateY(0px)',
+    hide: 'translateY(-100%)',
+  },
+  left: {
+    show: () => 'translateX(0px)',
+    hide: 'translateX(-100%)',
+  },
+  right: {
+    show: () => 'translateX(0px)',
+    hide: 'translateX(100%)',
+  },
+}
+
+const positionStyles: {
+  [key in LayerPosition]: (delay: number) => SerializedStyles
+} = {
+  bottom: (delay) => css`
+    bottom: 0;
+    transform: translateY(100%);
+    transition: transform ${delay}ms ease-out;
+    width: 100%;
+    will-change: transform;
+  `,
+  top: (delay) => css`
+    top: 0;
+    transform: translateY(-100%);
+    transition: transform ${delay}ms ease-out;
+    width: 100%;
+    will-change: transform;
+  `,
+  left: (delay) => css`
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: transform ${delay}ms ease-out;
+    height: 100%;
+    will-change: transform;
+  `,
+  right: (delay) => css`
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    transition: transform ${delay}ms ease-out;
+    height: 100%;
+    will-change: transform;
+  `,
+  center: (delay) => css`
+    top: 50%;
+    left: 50%;
+    transition: opacity ${delay}ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    will-change: opacity;
+  `,
+}
 
 //TODO draggable 아닐경우 max-height 줘야할듯?
-const Wrapper = styled.div<{ delay: number; height?: number }>`
+const Wrapper = styled.div<{
+  position: LayerPosition
+  delay: number
+}>`
+  position: fixed;
+
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-height: 100%;
-
-  /* DRAG 용*/
-  ${({ height = 0 }) =>
-    height > 0 &&
-    css`
-      height: ${height}px;
-    `}
-
-  position: fixed;
   z-index: 100;
-  bottom: 0;
 
   background-color: #fff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
-
-  /* 밑으로 보낸다 */
-  transform: translateY(100%);
-  transition: transform ${({ delay }) => `${delay}ms`} ease-out;
-  will-change: transform;
+  ${({ position, delay }) => positionStyles[position](delay)};
 `
 
 const Content = styled.div<{ draggable: boolean }>`
-  /* content안에서 scroll을 만드는게 더 낫다 */
+  /* content안에서 scroll을 만들어야한다. content크기만큼 나온다 */
   overflow: ${({ draggable }) => (draggable ? 'auto' : 'hidden')};
   -webkit-overflow-scrolling: touch;
   padding-bottom: calc(constant(safe-area-inset-bottom));
@@ -44,22 +106,44 @@ interface BodyProps {
   children: ReactNode
   open: boolean
   setMount: (mount: boolean) => void
-  delay: number
-  draggable: boolean
-  dragOptions: DragOptions
+  options: Omit<Options, 'dimmed' | 'scrollLockElement'>
 }
 
-export const Body = ({
-  children,
-  open,
-  setMount,
-  delay,
-  draggable,
-  dragOptions,
-}: BodyProps) => {
+const isBottomLayer = (
+  options: Omit<Options, 'dimmed' | 'scrollLockElement'>,
+): options is Omit<BottomLayerOptions, 'dimmed' | 'scrollLockElement'> => {
+  return options.position === 'bottom'
+}
+
+export const Body = ({ children, open, setMount, options }: BodyProps) => {
+  const {
+    position,
+    transitionDelay = 0,
+    draggable = false,
+    dragOptions,
+  } = useMemo(() => {
+    if (isBottomLayer(options)) {
+      return options
+    }
+    return {
+      ...options,
+      draggable: DEFAULT_VALUE.DRAGGABLE,
+      dragOptions: {
+        minHeight: DEFAULT_VALUE.MIN_HEIGHT,
+        minY: DEFAULT_VALUE.MIN_Y,
+      },
+    }
+  }, [options])
+
   const wrapperRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
-  useDrag(wrapperRef, contentRef, dragOptions, draggable)
+
+  useDrag(
+    wrapperRef,
+    contentRef,
+    dragOptions,
+    position === 'bottom' && draggable,
+  )
 
   const handleTransitionEnd = () => {
     if (!open) {
@@ -70,19 +154,38 @@ export const Body = ({
   useEffect(() => {
     // Unmount
     if (!open && wrapperRef.current) {
-      wrapperRef.current.style.transform = 'translate3d(0, 100%, 0)'
+      if (position === 'center') {
+        wrapperRef.current.style.opacity = '0'
+      } else {
+        wrapperRef.current.style.transform = getTransformText[position].hide
+      }
+
+      //delay없을 경우에는 바로 mount 해지한다.
+      if (transitionDelay === 0) {
+        setMount(false)
+      }
     }
   }, [open])
 
   useEffect(() => {
     // Mount
+    if (wrapperRef.current && draggable) {
+      //Draggable일 경우 높이를 고정해준다.
+      wrapperRef.current.style.height = `${
+        window.innerHeight - dragOptions.minY
+      }px`
+    }
+
     _.delay(() => {
       if (wrapperRef.current) {
-        const translateY = draggable
-          ? window.innerHeight - dragOptions.minHeight
-          : 0
-
-        wrapperRef.current.style.transform = `translateY(${translateY}px)`
+        if (position === 'center') {
+          wrapperRef.current.style.opacity = '1'
+        } else {
+          wrapperRef.current.style.transform = getTransformText[position].show(
+            //position==='bottom' 이면서 draggable일 경우에 올라오는 크기 고정
+            draggable ? window.innerHeight - dragOptions.minHeight : 0,
+          )
+        }
       }
     })
   }, [])
@@ -90,13 +193,9 @@ export const Body = ({
   return (
     <Wrapper
       ref={wrapperRef}
+      position={position}
+      delay={transitionDelay}
       onTransitionEnd={handleTransitionEnd}
-      delay={delay}
-      height={
-        'innerHeight' in window && draggable
-          ? window.innerHeight - dragOptions.minY
-          : 0
-      }
     >
       <Content draggable={draggable} ref={contentRef}>
         {children}
