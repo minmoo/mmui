@@ -1,35 +1,38 @@
 {
   "name": "@mmui/async-layers",
+  "description": "async multi layers",
+  "author": "minmoo <minmoo1023@gmail.com>",
+  "keywords": ["react", "react layer", "react bottomsheet", "react dialog", "multi layer", "async layer", "bottomsheet", "dialog"],
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "browser": "./browser/specific/main.js",
+  "repository" : {
+    "type": "git",
+    "url" : "https://github.com/minmoo/mmui"
+   },
+   "bugs": {
+    "url": "https://github.com/minmoo/mmui/issues"
+   },
+   "license": "MIT",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@next/font": "13.0.7",
-    "@types/node": "18.11.17",
-    "@types/react": "18.0.26",
-    "@types/react-dom": "18.0.9",
-    "next": "13.0.7",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "4.9.4"
+    "build": "rm -rf dist && mkdir dist && tsc",
+    "prepare": "yarn build"
   },
   "devDependencies": {
-    "@emotion/babel-plugin": "^11.10.5",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@types/underscore": "^1.11.4",
-    "@typescript-eslint/eslint-plugin": "^5.46.1",
-    "@typescript-eslint/parser": "^5.46.1",
-    "eslint": "^8.30.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.11",
-    "prettier": "^2.8.1",
-    "underscore": "^1.13.6"
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "latest",
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@types/underscore": "latest",
+    "underscore": "latest"
+  },
+  "peerDependencies": {
+    "react": ">=16.8"
   }
 }

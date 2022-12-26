@@ -10,6 +10,7 @@ module.exports = {
     'plugin:react/jsx-runtime', // React import 안해도 에러발생 X
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'plugin:react-hooks/recommended',
   ],
   overrides: [],
   parser: '@typescript-eslint/parser',

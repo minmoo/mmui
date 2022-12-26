@@ -37,9 +37,16 @@ function Example() {
 
 const Box = styled.div`
   display: flex;
-  width: 500px;
+  width: 700px;
   height: 200px;
   background: blue;
+`
+const Box2 = styled.div`
+  display: flex;
+
+  height: 3000px;
+  width: 600px;
+  background: pink;
 `
 
 function Content() {
@@ -55,9 +62,9 @@ function Content() {
 function Content2() {
   const { show } = useLayers(Content, { type: 'dialog' })
   return (
-    <>
+    <div>
       <button onClick={() => show()}>b</button>
-      <Box />
-    </>
+      <Box2 />
+    </div>
   )
 }

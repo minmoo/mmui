@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "target": "ES5",
+        "module": "CommonJS",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "jsx": "preserve",
+        "declaration": true,
+        "esModuleInterop": true,
+        "downlevelIteration": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "noEmit": false,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "allowSyntheticDefaultImports": true
+    },
+    "include": ["./lib/**/*.tsx", "./lib/**/*.ts"],
+    "exclude": ["node_modules"]
+}

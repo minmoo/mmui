@@ -1,10 +1,11 @@
 import styled from '@emotion/styled'
 import { ReactNode, useEffect, useRef } from 'react'
 import _ from 'underscore'
-import { Header } from './Header'
 import { DragOptions } from './config/options'
 import { css } from '@emotion/react'
+import { useDrag } from './hooks/useDrag'
 
+//TODO draggable 아닐경우 max-height 줘야할듯?
 const Wrapper = styled.div<{ delay: number; height?: number }>`
   display: flex;
   flex-direction: column;
@@ -31,9 +32,9 @@ const Wrapper = styled.div<{ delay: number; height?: number }>`
   will-change: transform;
 `
 
-const Content = styled.div`
+const Content = styled.div<{ draggable: boolean }>`
   /* content안에서 scroll을 만드는게 더 낫다 */
-  overflow: hidden;
+  overflow: ${({ draggable }) => (draggable ? 'auto' : 'hidden')};
   -webkit-overflow-scrolling: touch;
   padding-bottom: calc(constant(safe-area-inset-bottom));
   padding-bottom: calc(env(safe-area-inset-bottom));
@@ -57,6 +58,8 @@ export const Body = ({
   dragOptions,
 }: BodyProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  useDrag(wrapperRef, contentRef, dragOptions, draggable)
 
   const handleTransitionEnd = () => {
     if (!open) {
@@ -95,10 +98,9 @@ export const Body = ({
           : 0
       }
     >
-      {draggable && (
-        <Header wrapperRef={wrapperRef} dragOptions={dragOptions} />
-      )}
-      <Content>{children}</Content>
+      <Content draggable={draggable} ref={contentRef}>
+        {children}
+      </Content>
     </Wrapper>
   )
 }
