@@ -1,11 +1,14 @@
 {
     "compilerOptions": {
+        "rootDir": "lib",
         "outDir": "./dist",
         "target": "ES5",
-        "module": "CommonJS",
+        "module": "ESNext",
         "lib": ["dom", "dom.iterable", "esnext"],
-        "jsx": "preserve",
+        "jsx": "react-jsx",
         "declaration": true,
+        "declarationDir": "./dist",
+        "allowJs": true,
         "esModuleInterop": true,
         "downlevelIteration": true,
         "skipLibCheck": true,
@@ -14,8 +17,11 @@
         "resolveJsonModule": true,
         "moduleResolution": "node",
         "forceConsistentCasingInFileNames": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./",
+        "emitDeclarationOnly": true,
+        "removeComments": true
     },
     "include": ["./lib/**/*.tsx", "./lib/**/*.ts"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist"]
 }

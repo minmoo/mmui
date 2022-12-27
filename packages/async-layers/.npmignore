@@ -5,6 +5,8 @@ node_modules/
 src
 .gitignore
 tsconfig.json
+yarn.lock
+rollup.config.js
 
 # GIT
 .git
