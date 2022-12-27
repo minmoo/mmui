@@ -11,10 +11,33 @@ export default function Layers() {
 }
 
 function Example() {
-  const { show } = useLayers(Content, {
-    type: 'center',
-    transitionDelay: 1000,
+  const { show: showBottom } = useLayers(Content, {
+    position: 'bottom',
+    transitionDelay: 500,
   })
+  const { show: showLeft } = useLayers(Content, {
+    position: 'left',
+    transitionDelay: 300,
+  })
+  const { show: showRight } = useLayers(Content, {
+    position: 'right',
+    transitionDelay: 700,
+  })
+  const { show: showTop } = useLayers(Content, {
+    position: 'top',
+    transitionDelay: 100,
+  })
+  const { show: showCenter } = useLayers(Content, {
+    position: 'center',
+    transitionDelay: 200,
+  })
+
+  const { show: showDragBottom } = useLayers(Content, {
+    position: 'bottom',
+    transitionDelay: 500,
+    draggable: true,
+  })
+
   return (
     <>
       <Head>
@@ -24,7 +47,15 @@ function Example() {
       </Head>
       <main>
         <div>async layers</div>
-        <button onClick={() => show()}>Button</button>
+        <div
+          style={{ width: '100%', height: '500px', backgroundColor: 'blue' }}
+        ></div>
+        <button onClick={() => showBottom()}>Bottom Button</button>
+        <button onClick={() => showLeft()}>Left Button</button>
+        <button onClick={() => showRight()}>Right Button</button>
+        <button onClick={() => showTop()}>Top Button</button>
+        <button onClick={() => showCenter()}>Center Button</button>
+        <button onClick={() => showDragBottom()}>Drag Bottom Button</button>
         <div
           style={{
             width: '100%',
@@ -32,7 +63,6 @@ function Example() {
             backgroundColor: 'yellow',
           }}
         ></div>
-        <button onClick={() => show()}>Button</button>
       </main>
     </>
   )
@@ -54,27 +84,22 @@ const Box2 = styled.div`
 
 function Content() {
   const { show } = useLayers(Content2, {
-    type: 'center',
+    position: 'center',
   })
   return (
     <>
       <h2>Content</h2>
-      <button onClick={() => show()}>a</button>
+      <button onClick={() => show()}>Center Button</button>
       <Box />
     </>
   )
 }
 
-function Content2() {
-  const { show } = useLayers(Content, {
-    type: 'bottom',
-    transitionDelay: 0,
-    draggable: true,
-  })
+function Content2({ onClose }: { onClose: () => void }) {
   return (
     <div>
       <h2>Content2</h2>
-      <button onClick={() => show()}>b</button>
+      <button onClick={() => onClose()}>Close Button</button>
       <Box2 />
     </div>
   )

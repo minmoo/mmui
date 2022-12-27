@@ -1,14 +1,14 @@
 import { ReactNode, useEffect, useState } from 'react'
 
 import { Body } from './Body'
-import { Options } from './config/options'
+import { DefaultOptions } from './config/options'
 import { Dimmed } from './Dimmed'
 
 interface LayoutProps {
   children: ReactNode
   open: boolean
   onClose: (value: unknown) => void
-  options: Options
+  options: DefaultOptions
 }
 
 export const Layout = ({ children, open, onClose, options }: LayoutProps) => {

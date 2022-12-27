@@ -1,14 +1,9 @@
 import styled from '@emotion/styled'
-import { ReactNode, useEffect, useMemo, useRef } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 import _ from 'underscore'
-import {
-  LayerPosition,
-  BottomLayerOptions,
-  DEFAULT_VALUE,
-} from './config/options'
+import { LayerPosition, DefaultOptions } from './config/options'
 import { css, SerializedStyles } from '@emotion/react'
 import { useDrag } from './hooks/useDrag'
-import { Options } from './config/options'
 
 const getTransformText: {
   [key in Exclude<LayerPosition, 'center'>]: {
@@ -106,13 +101,7 @@ interface BodyProps {
   children: ReactNode
   open: boolean
   setMount: (mount: boolean) => void
-  options: Omit<Options, 'dimmed' | 'scrollLockElement'>
-}
-
-const isBottomLayer = (
-  options: Omit<Options, 'dimmed' | 'scrollLockElement'>,
-): options is Omit<BottomLayerOptions, 'dimmed' | 'scrollLockElement'> => {
-  return options.position === 'bottom'
+  options: Omit<DefaultOptions, 'dimmed' | 'scrollLockElement'>
 }
 
 export const Body = ({ children, open, setMount, options }: BodyProps) => {
@@ -121,19 +110,7 @@ export const Body = ({ children, open, setMount, options }: BodyProps) => {
     transitionDelay = 0,
     draggable = false,
     dragOptions,
-  } = useMemo(() => {
-    if (isBottomLayer(options)) {
-      return options
-    }
-    return {
-      ...options,
-      draggable: DEFAULT_VALUE.DRAGGABLE,
-      dragOptions: {
-        minHeight: DEFAULT_VALUE.MIN_HEIGHT,
-        minY: DEFAULT_VALUE.MIN_Y,
-      },
-    }
-  }, [options])
+  } = options
 
   const wrapperRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)

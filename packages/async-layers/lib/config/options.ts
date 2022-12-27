@@ -19,14 +19,10 @@ interface OthersLayerOptions extends CommonOptions {
 }
 
 export type Options = OthersLayerOptions | BottomLayerOptions
-
-export const OPTIONS: Options = {
-  position: 'bottom',
-  dimmed: true,
-  transitionDelay: 350,
-  draggable: false,
-  dragOptions: { minHeight: 300, minY: 80 },
-  scrollLockElement: null,
+export interface DefaultOptions
+  extends Omit<OthersLayerOptions, 'position'>,
+    Omit<BottomLayerOptions, 'position'> {
+  position: LayerPosition
 }
 
 export const DEFAULT_VALUE = {
@@ -37,4 +33,16 @@ export const DEFAULT_VALUE = {
   MIN_HEIGHT: 300,
   MIN_Y: 80,
   SCROLL_LOCK_ELEMENT: null,
+}
+
+export const defaultOptions: DefaultOptions = {
+  position: DEFAULT_VALUE.POSITION,
+  dimmed: DEFAULT_VALUE.DIMMED,
+  transitionDelay: DEFAULT_VALUE.TRANSITION_DELAY,
+  draggable: DEFAULT_VALUE.DRAGGABLE,
+  dragOptions: {
+    minHeight: DEFAULT_VALUE.MIN_HEIGHT,
+    minY: DEFAULT_VALUE.MIN_Y,
+  },
+  scrollLockElement: DEFAULT_VALUE.SCROLL_LOCK_ELEMENT,
 }

@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react'
 import _ from 'underscore'
-import { DEFAULT_VALUE, Options } from './config/options'
+import { defaultOptions, DefaultOptions, Options } from './config/options'
 
 import { Layout } from './Layout'
 
@@ -23,7 +23,7 @@ export type ContentComponent<P, R> = ComponentType<ContentProps<P, R>>
 interface Layer {
   component: ContentComponent<unknown, unknown>
   isOpen: boolean
-  options: Options
+  options: DefaultOptions
   props?: unknown
   resolve?: (value: unknown) => void
 }
@@ -52,19 +52,6 @@ interface ProviderProps {
   children: ReactNode
   options?: Partial<Options>
 }
-
-const defaultOptions: Options = {
-  position: DEFAULT_VALUE.POSITION,
-  dimmed: DEFAULT_VALUE.DIMMED,
-  transitionDelay: DEFAULT_VALUE.TRANSITION_DELAY,
-  draggable: DEFAULT_VALUE.DRAGGABLE,
-  dragOptions: {
-    minHeight: DEFAULT_VALUE.MIN_HEIGHT,
-    minY: DEFAULT_VALUE.MIN_Y,
-  },
-  scrollLockElement: DEFAULT_VALUE.SCROLL_LOCK_ELEMENT,
-}
-
 const layerMap = new Map<string, Layer>()
 
 /**
@@ -167,129 +154,6 @@ export const Provider = ({ children, options }: ProviderProps) => {
 
           return (
             <Layout key={key} open={isOpen} onClose={onClose} options={options}>
-              <C open={isOpen} onClose={onClose} props={props} />
-            </Layout>
-          )
-        } else {
-          return null
-        }
-      })}
-    </LayerContext.Provider>
-  )
-}
-
-/**
- * State를 활용한 Provider
- * @param param0
- */
-export const BottomSheetProvider2 = ({ children, options }: ProviderProps) => {
-  const [layers, setLayers] = useState<{
-    [key: string]: Layer
-  }>({})
-
-  //Layer이 뜬 순서를 기억하기 위해서 사용(선언과 순서를 다르게 하면 안맞기 떄문)
-  const [orders, setOrders] = useState<string[]>([])
-  const uniqueId = useRef(0)
-  const latestId = useRef('')
-
-  const getUniqueId = () => {
-    const id = uniqueId.current
-    uniqueId.current++
-    return id
-  }
-
-  const context: ContextState<unknown, unknown> = useMemo(
-    () => ({
-      register(component, opts) {
-        const options = _.extend({}, defaultOptions, opts)
-        const item = {
-          component,
-          options,
-          isOpen: false,
-        }
-
-        const id = getUniqueId()
-
-        setLayers((layers) => ({ ...layers, [id]: item }))
-        return String(id)
-      },
-
-      unregister(id) {
-        setOrders((orders) => orders.filter((order) => order !== id))
-        setLayers(({ [id]: _, ...rest }) => rest)
-      },
-
-      show(id, props) {
-        latestId.current = id
-        setOrders((orders) => orders.filter((order) => order !== id).concat(id))
-        return new Promise((resolve) => {
-          setLayers((layers) => ({
-            ...layers,
-            [id]: { ...layers[id], props, isOpen: true, resolve } as Layer,
-          }))
-        })
-      },
-
-      hide(id) {
-        setLayers((layers) => ({
-          ...layers,
-          [id]: { ...layers[id], isOpen: false } as Layer,
-        }))
-      },
-
-      hideLatest() {
-        setLayers((layers) => ({
-          ...layers,
-          [latestId.current]: {
-            ...layers[latestId.current],
-            isOpen: false,
-          } as Layer,
-        }))
-      },
-
-      hideAll() {
-        setLayers((layers) =>
-          _.mapObject(layers, (val) => {
-            return { ...val, isOpen: false }
-          }),
-        )
-      },
-
-      updateProps(id, props) {
-        setLayers((layers) => ({
-          ...layers,
-          [id]: { ...layers[id], props } as Layer,
-        }))
-      },
-    }),
-    [],
-  )
-
-  useEffect(() => {
-    if (options) {
-      _.extend(defaultOptions, options)
-    }
-  }, [options])
-
-  return (
-    <LayerContext.Provider value={context}>
-      {children}
-      {orders.map((id) => {
-        const {
-          component: C,
-          isOpen,
-          props,
-          resolve,
-          options,
-        } = layers[id] as Layer
-        if (resolve) {
-          const onClose = (value: unknown) => {
-            context.hide(id)
-            resolve(value)
-          }
-
-          return (
-            <Layout key={id} open={isOpen} onClose={onClose} options={options}>
               <C open={isOpen} onClose={onClose} props={props} />
             </Layout>
           )

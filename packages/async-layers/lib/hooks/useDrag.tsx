@@ -70,7 +70,7 @@ export const useDrag = (
     return false
   }
 
-  const onDragStart = (e: any) => {
+  const onDragStart = (e: unknown) => {
     if (!isDragEvent(e)) return
 
     const target = e.currentTarget
@@ -85,7 +85,7 @@ export const useDrag = (
     target.style.transition = 'none'
   }
 
-  const onDragMove = (e: any) => {
+  const onDragMove = (e: unknown) => {
     if (!info.current.isDown || !isDragEvent(e) || !contentRef.current) return
 
     const currentY = getClientY(e)
@@ -120,7 +120,7 @@ export const useDrag = (
     }
   }
 
-  const onDragEnd = (e: any) => {
+  const onDragEnd = (e: unknown) => {
     if (!isDragEvent(e) || !targetRef.current || !contentRef.current) return
 
     const currentSheetY = targetRef.current.getBoundingClientRect().y
