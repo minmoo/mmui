@@ -14,7 +14,7 @@
 import { AsyncLayersProvider, useLayers } from '@minmoo/async-layers'
 
 export default function App() {
-  return (Cancel changes
+  return (
     <AsyncLayersProvider>
       <Example />
     </AsyncLayersProvider>
