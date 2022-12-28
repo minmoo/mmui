@@ -14,7 +14,7 @@
 import { AsyncLayersProvider, useLayers } from '@minmoo/async-layers'
 
 export default function App() {
-  return (
+  return (Cancel changes
     <AsyncLayersProvider>
       <Example />
     </AsyncLayersProvider>
@@ -41,7 +41,7 @@ function Content() {
 default options
 
 ```tsx
-;<AsyncLayersProvider
+<AsyncLayersProvider
   options={{
     position: 'bottom', // component position: 'top', 'bottom', 'left', 'right', 'center'
     dimmed: true, // dimmed background
