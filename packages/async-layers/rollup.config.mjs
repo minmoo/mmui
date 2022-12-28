@@ -1,14 +1,13 @@
-import { readFileSync } from 'fs'
 import PeerDepsExternal from 'rollup-plugin-peer-deps-external'
 import resolve from '@rollup/plugin-node-resolve'
 import image from '@rollup/plugin-image'
 import commonjs from '@rollup/plugin-commonjs'
 import babel from '@rollup/plugin-babel'
-import typescript from 'rollup-plugin-typescript2'
+import typescript from '@rollup/plugin-typescript'
+import pkg from './package.json' assert { type: 'json' }
 
-const pkg = JSON.parse(readFileSync('./package.json'))
 const extensions = ['js', 'jsx', 'ts', 'tsx']
-const external = ['react', 'react-dom', /@emotion\/styled/, /@emotion\/react/]
+const external = ['react', 'react-dom']
 
 export default {
   external,
@@ -34,7 +33,9 @@ export default {
   plugins: [
     PeerDepsExternal(),
     resolve({ extensions }),
-    typescript({ useTsconfigDeclarationDir: true }),
+    typescript({
+      tsconfig: './tsconfig.json',
+    }),
     babel({
       babelHelpers: 'runtime',
       extensions,

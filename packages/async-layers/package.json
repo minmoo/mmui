@@ -12,14 +12,13 @@
     "bottomsheet",
     "dialog"
   ],
-  "version": "0.1.0",
+  "version": "0.1.3",
   "private": false,
-  "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
   "types": "./dist/index.d.ts",
   "browser": "./dist/index.umd.js",
-  "exports" : {
+  "exports": {
     ".": {
       "browser": "./dist/index.js",
       "import": "./dist/index.es.js",
@@ -41,7 +40,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup -c",
-    "prepare": "yarn build"
+    "watch": "rollup -cw"
   },
   "devDependencies": {
     "@babel/core": "^7.20.7",
@@ -72,9 +71,12 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.34.1",
     "typescript": "latest",
-    "underscore": "latest"
+    "underscore": "latest",
+    "tslib": "^2.4.1"
   },
   "peerDependencies": {
-    "react": ">=16.8"
+    "react": ">=16.8",
+    "react-dom": ">=16.8",
+    "tslib": "^2.4.1"
   }
 }
