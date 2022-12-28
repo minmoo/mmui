@@ -205,6 +205,11 @@
   resolved "https://npm.housefeed.com/@humanwhocodes%2fobject-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@minmoo/async-layers@^0.1.12":
+  version "0.1.12"
+  resolved "https://npm.housefeed.com/@minmoo%2fasync-layers/-/async-layers-0.1.12.tgz#38859ce24356cf68a36c8d11a1dd9de07d619634"
+  integrity sha512-4vcHBR7ACRplUwV1w4kjyOmXL8KCAdAqBijqQl/S65FTJ9jT/Mqy34PoFpM0VNx2Ah7SllYuMMzTgInrNvWFVg==
+
 "@next/env@13.0.7":
   version "13.0.7"
   resolved "https://npm.housefeed.com/@next%2fenv/-/env-13.0.7.tgz#7b6ccd9006d3fb57c369e3fb62b28e15324141e9"

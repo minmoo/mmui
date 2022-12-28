@@ -33,6 +33,7 @@ export default {
   plugins: [
     PeerDepsExternal(),
     resolve({ extensions }),
+    commonjs({ include: /node_modules/ }),
     typescript({
       tsconfig: './tsconfig.json',
     }),
@@ -42,7 +43,6 @@ export default {
       include: ['lib/**/*'],
       exclude: /node_modules/,
     }),
-    commonjs({ include: /node_modules/ }),
     image(),
   ],
 }

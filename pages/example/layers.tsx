@@ -1,4 +1,5 @@
-import { AsyncLayersProvider, useLayers } from '@/packages/async-layers/lib'
+// import { AsyncLayersProvider, useLayers } from '@/packages/async-layers/lib'
+import { AsyncLayersProvider, useLayers } from '@minmoo/async-layers'
 import styled from '@emotion/styled'
 import Head from 'next/head'
 
