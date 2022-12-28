@@ -12,7 +12,7 @@
     "bottomsheet",
     "dialog"
   ],
-  "version": "0.1.12",
+  "version": "0.1.13",
   "private": false,
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
@@ -70,6 +70,7 @@
     "rollup": "^3.8.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.34.1",
+    "tslib": "^2.4.1",
     "typescript": "latest",
     "underscore": "latest"
   },

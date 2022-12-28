@@ -5,7 +5,7 @@ import Head from 'next/head'
 
 export default function Layers() {
   return (
-    <AsyncLayersProvider>
+    <AsyncLayersProvider options={{ position: 'top', transitionDelay: 1000 }}>
       <Example />
     </AsyncLayersProvider>
   )
