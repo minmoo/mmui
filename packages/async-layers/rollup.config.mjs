@@ -14,10 +14,9 @@ export default {
   input: './lib/index.ts',
   output: [
     {
-      dir: './dist',
+      file: pkg.main,
       format: 'cjs',
-      preserveModules: true,
-      preserveModulesRoot: 'lib',
+      sourcemap: true,
     },
     {
       file: pkg.module,

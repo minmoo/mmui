@@ -12,8 +12,7 @@
     "bottomsheet",
     "dialog"
   ],
-  "version": "0.1.14",
-  "private": false,
+  "version": "0.1.15",
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
   "types": "./dist/index.d.ts",

@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
+    "outDir": "lib",
     "declaration": true,
     "declarationDir": "lib",
+    "sourceMap": true,
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "es6",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "es6", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -20,12 +17,10 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "emitDeclarationOnly": true
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "exclude": ["lib"]
 }
