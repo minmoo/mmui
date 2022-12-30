@@ -4,6 +4,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 import PeerDepsExternal from 'rollup-plugin-peer-deps-external'
 import { terser } from 'rollup-plugin-terser'
+import dts from 'rollup-plugin-dts'
 import pkg from './package.json' assert { type: 'json' }
 
 export default [
@@ -38,5 +39,10 @@ export default [
       }),
       terser(),
     ],
+  },
+  {
+    input: 'lib/index.d.ts',
+    output: [{ file: 'lib/index.d.ts', format: 'cjs' }],
+    plugins: [dts()],
   },
 ]

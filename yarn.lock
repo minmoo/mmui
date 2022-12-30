@@ -283,13 +283,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@minmoo/async-layers@npm:^0.1.13":
-  version: 0.1.13
-  resolution: "@minmoo/async-layers@npm:0.1.13"
+"@minmoo/async-layers@npm:^0.1.15":
+  version: 0.1.15
+  resolution: "@minmoo/async-layers@npm:0.1.15"
   peerDependencies:
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: e3733dd753e9d5244617551e5c10093729a9a133f226aab26cab7b391eb95188713c6c1a8c889f6906bcbb9d50f7a903c4a33d94687aa45953a0f20461fc3758
+  checksum: 6ba34fd82d8e57edaf40ba2b9e443afc903171e371995f143b1324d7ddcb3f009479d1fc7cb8e47f84f754ddec4abb97996ea236cde8db58ad0101d51da2613b
   languageName: node
   linkType: hard
 
@@ -1877,7 +1877,7 @@ __metadata:
     "@emotion/babel-plugin": ^11.10.5
     "@emotion/react": ^11.10.5
     "@emotion/styled": ^11.10.5
-    "@minmoo/async-layers": ^0.1.13
+    "@minmoo/async-layers": ^0.1.15
     "@minmoo/publish-rollup": ^0.0.7
     "@next/font": 13.0.7
     "@types/node": 18.11.17
