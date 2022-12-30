@@ -1,5 +1,5 @@
-// import { AsyncLayersProvider, useLayers } from '@/packages/async-layers/lib'
-import { AsyncLayersProvider, useLayers } from '@minmoo/async-layers'
+import { AsyncLayersProvider, useLayers } from '@/packages/async-layers/lib'
+// import { AsyncLayersProvider, useLayers } from '@minmoo/async-layers'
 import styled from '@emotion/styled'
 import Head from 'next/head'
 
@@ -49,7 +49,7 @@ function Example() {
       <main>
         <div>async layers</div>
         <div
-          style={{ width: '100%', height: '500px', backgroundColor: 'blue' }}
+          style={{ width: '100%', height: '400px', backgroundColor: 'blue' }}
         ></div>
         <button onClick={() => showBottom()}>Bottom Button</button>
         <button onClick={() => showLeft()}>Left Button</button>

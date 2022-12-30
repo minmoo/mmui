@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@minmoo/async-layers": "^0.1.15",
-    "@minmoo/publish-rollup": "^0.0.7",
+    "@minmoo/publish-rollup": "^0.0.11",
     "@next/font": "13.0.7",
     "next": "13.0.7",
     "react": "18.2.0",

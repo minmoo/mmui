@@ -31,8 +31,7 @@ export const lockScroll = (el: HTMLElement | null) => {
   target.style.position = 'fixed'
   target.style.left = '0px'
   target.style.right = '0px'
-  //desktop에서 scroll이 사라지면 width가 변하는 것을 막기위해
-  target.style.overflow = 'scroll'
+  target.style.overflow = 'auto'
 
   if (isBody) {
     target.style.top = `-${scrollTop}px`
