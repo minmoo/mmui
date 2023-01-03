@@ -12,7 +12,7 @@
     "bottomsheet",
     "dialog"
   ],
-  "version": "0.1.16",
+  "version": "0.1.18",
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
   "types": "./dist/index.d.ts",
@@ -38,7 +38,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rm -rf dist & rollup -c",
     "watch": "rollup -cw"
   },
   "devDependencies": {
