@@ -1,6 +1,6 @@
 import { useRef, useEffect, useContext, Context } from 'react'
 import { Options } from '../config/options'
-import { ContentComponent, ContextState, LayerContext } from '../Provider'
+import { ContentComponent, ContextState, LayersContext } from '../Provider'
 
 export function useLayers<P, R>(
   component: ContentComponent<P, R>,
@@ -9,7 +9,7 @@ export function useLayers<P, R>(
   const id = useRef<string>()
 
   const ctx = useContext<ContextState<P, R>>(
-    LayerContext as Context<ContextState<P, R>>,
+    LayersContext as Context<ContextState<P, R>>,
   )
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export function useLayers<P, R>(
     if (id.current) {
       return ctx.show(id.current, props)
     } else {
-      throw new Error('No BottomSheet Component registered')
+      throw new Error('No Layer Component registered')
     }
   }
 
@@ -33,7 +33,7 @@ export function useLayers<P, R>(
     if (id.current) {
       return ctx.hide(id.current)
     } else {
-      throw new Error('No BottomSheet Component registered')
+      throw new Error('No Layer Component registered')
     }
   }
 
@@ -45,7 +45,7 @@ export function useLayers<P, R>(
 }
 
 export function useLayersHide() {
-  const ctx = useContext(LayerContext)
+  const ctx = useContext(LayersContext)
 
   const hideAll = () => {
     ctx.hideAll()

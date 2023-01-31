@@ -101,7 +101,7 @@ interface BodyProps {
   children: ReactNode
   open: boolean
   setMount: (mount: boolean) => void
-  options: Omit<DefaultOptions, 'dimmed' | 'scrollLockElement'>
+  options: Omit<DefaultOptions, 'dimmedType' | 'scrollLockElement'>
 }
 
 export const Body = ({ children, open, setMount, options }: BodyProps) => {

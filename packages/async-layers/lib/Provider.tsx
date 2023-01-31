@@ -38,7 +38,7 @@ export interface ContextState<P, R> {
   updateProps: (id: string, props: unknown) => void
 }
 
-export const LayerContext = createContext<ContextState<unknown, unknown>>({
+export const LayersContext = createContext<ContextState<unknown, unknown>>({
   register: () => '',
   unregister: () => undefined,
   show: async () => undefined,
@@ -142,7 +142,7 @@ export const Provider = ({ children, options }: ProviderProps) => {
   }, [options])
 
   return (
-    <LayerContext.Provider value={context}>
+    <LayersContext.Provider value={context}>
       {children}
       {[...layerMap].map(([key, layer]) => {
         const { component: C, isOpen, props, resolve, options } = layer
@@ -161,6 +161,6 @@ export const Provider = ({ children, options }: ProviderProps) => {
           return null
         }
       })}
-    </LayerContext.Provider>
+    </LayersContext.Provider>
   )
 }

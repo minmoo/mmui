@@ -3,8 +3,9 @@ export interface DragOptions {
   minY: number
 }
 export type LayerPosition = 'bottom' | 'top' | 'left' | 'right' | 'center'
+export type DimmedType = 'show' | 'hide' | 'closeable'
 interface CommonOptions {
-  dimmed: boolean
+  dimmedType: DimmedType
   transitionDelay: number
   scrollLockElement: HTMLElement | null
 }
@@ -27,7 +28,7 @@ export interface DefaultOptions
 
 export const DEFAULT_VALUE = {
   POSITION: 'bottom' as LayerPosition,
-  DIMMED: true,
+  DIMMED_TYPE: 'closeable' as DimmedType,
   TRANSITION_DELAY: 350,
   DRAGGABLE: false,
   MIN_HEIGHT: 300,
@@ -37,7 +38,7 @@ export const DEFAULT_VALUE = {
 
 export const defaultOptions: DefaultOptions = {
   position: DEFAULT_VALUE.POSITION,
-  dimmed: DEFAULT_VALUE.DIMMED,
+  dimmedType: DEFAULT_VALUE.DIMMED_TYPE,
   transitionDelay: DEFAULT_VALUE.TRANSITION_DELAY,
   draggable: DEFAULT_VALUE.DRAGGABLE,
   dragOptions: {
