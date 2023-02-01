@@ -7,7 +7,7 @@ import { Dimmed } from './Dimmed'
 interface LayoutProps {
   children: ReactNode
   open: boolean
-  onClose: (value: unknown) => void
+  onClose: (value: unknown) => Promise<void>
   options: DefaultOptions
 }
 

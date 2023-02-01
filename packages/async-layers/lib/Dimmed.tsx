@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
 import { useEffect } from 'react'
-import { DimmedType } from './config/options'
+import { CLOSE_TYPE, DimmedType } from './config/options'
 import { lockScroll, unlockScroll } from './util/scrollLock'
 
 export const Container = styled.div`
@@ -26,7 +26,7 @@ export const Container = styled.div`
 `
 
 interface DimmedProps {
-  onClose: (value: unknown) => void
+  onClose: (value: unknown) => Promise<void>
   scrollLockElement: HTMLElement | null
   type: DimmedType
 }
@@ -34,7 +34,7 @@ interface DimmedProps {
 export const Dimmed = ({ onClose, scrollLockElement, type }: DimmedProps) => {
   const handleClick = () => {
     if (type === 'closeable') {
-      onClose('dimmed')
+      onClose(CLOSE_TYPE.DIMMED)
     }
   }
 

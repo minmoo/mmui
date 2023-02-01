@@ -4,25 +4,33 @@ export interface DragOptions {
 }
 export type LayerPosition = 'bottom' | 'top' | 'left' | 'right' | 'center'
 export type DimmedType = 'show' | 'hide' | 'closeable'
-interface CommonOptions {
+
+export const CLOSE_TYPE = {
+  DIMMED: 'dimmed',
+  BACK: 'back',
+  CUSTOM: 'custom',
+} as const
+export type CloseType = typeof CLOSE_TYPE[keyof typeof CLOSE_TYPE]
+interface CommonOptions<R = undefined> {
   dimmedType: DimmedType
   transitionDelay: number
   scrollLockElement: HTMLElement | null
+  onClose?: (value: R | CloseType) => Promise<boolean> | boolean
 }
-export interface BottomLayerOptions extends CommonOptions {
+export interface BottomLayerOptions<R> extends CommonOptions<R> {
   position: Extract<LayerPosition, 'bottom'>
   draggable: boolean
   dragOptions: DragOptions
 }
 
-interface OthersLayerOptions extends CommonOptions {
+interface OthersLayerOptions<R> extends CommonOptions<R> {
   position: Exclude<LayerPosition, 'bottom'>
 }
 
-export type Options = OthersLayerOptions | BottomLayerOptions
+export type Options<R> = OthersLayerOptions<R> | BottomLayerOptions<R>
 export interface DefaultOptions
-  extends Omit<OthersLayerOptions, 'position'>,
-    Omit<BottomLayerOptions, 'position'> {
+  extends Omit<OthersLayerOptions<unknown>, 'position'>,
+    Omit<BottomLayerOptions<unknown>, 'position'> {
   position: LayerPosition
 }
 

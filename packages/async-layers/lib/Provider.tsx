@@ -29,7 +29,7 @@ interface Layer {
 }
 
 export interface ContextState<P, R> {
-  register: (obj: ContentComponent<P, R>, opts?: Partial<Options>) => string
+  register: (obj: ContentComponent<P, R>, opts?: Partial<Options<R>>) => string
   unregister: (id: string) => void
   show: (id: string, props?: P) => Promise<R | undefined>
   hide: (id: string) => void
@@ -50,7 +50,7 @@ export const LayersContext = createContext<ContextState<unknown, unknown>>({
 
 interface ProviderProps {
   children: ReactNode
-  options?: Partial<Options>
+  options?: Partial<Options<unknown>>
 }
 const layerMap = new Map<string, Layer>()
 
@@ -147,9 +147,16 @@ export const Provider = ({ children, options }: ProviderProps) => {
       {[...layerMap].map(([key, layer]) => {
         const { component: C, isOpen, props, resolve, options } = layer
         if (resolve) {
-          const onClose = (value: unknown) => {
-            context.hide(key)
-            resolve(value)
+          const onClose = async (value: unknown) => {
+            let layerClose = true
+            if (_.isFunction(options.onClose)) {
+              layerClose = await options.onClose(value)
+            }
+
+            if (layerClose) {
+              context.hide(key)
+              resolve(value)
+            }
           }
 
           return (

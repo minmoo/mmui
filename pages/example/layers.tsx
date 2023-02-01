@@ -1,5 +1,4 @@
-// import { AsyncLayersProvider, useLayers } from '@/packages/async-layers/lib'
-import {} from '@minmoo/async-layers'
+import { AsyncLayersProvider, useLayers } from '@/packages/async-layers/lib'
 import styled from '@emotion/styled'
 import Head from 'next/head'
 
@@ -12,7 +11,7 @@ export default function Layers() {
 }
 
 function Example() {
-  const { show: showBottom } = useLayers(Content, {
+  const { show: showBottom } = useLayers<void, number>(Content, {
     position: 'bottom',
     transitionDelay: 500,
   })

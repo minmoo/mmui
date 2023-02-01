@@ -4,7 +4,7 @@ import { ContentComponent, ContextState, LayersContext } from '../Provider'
 
 export function useLayers<P, R>(
   component: ContentComponent<P, R>,
-  options?: Partial<Options>,
+  options?: Partial<Options<R>>,
 ) {
   const id = useRef<string>()
 
