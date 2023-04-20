@@ -1,4 +1,8 @@
-import { AsyncLayersProvider, useLayers } from '@/packages/async-layers/lib'
+import {
+  AsyncLayersProvider,
+  useLayers,
+  useLayersUtils,
+} from '@/packages/async-layers/lib'
 import styled from '@emotion/styled'
 import Head from 'next/head'
 
@@ -18,25 +22,32 @@ function Example() {
   const { show: showLeft } = useLayers(Content, {
     position: 'left',
     transitionDelay: 300,
+    dimmedType: 'hide',
   })
   const { show: showRight } = useLayers(Content, {
     position: 'right',
     transitionDelay: 700,
+    dimmedType: 'hide',
   })
   const { show: showTop } = useLayers(Content, {
     position: 'top',
     transitionDelay: 100,
+    dimmedType: 'hide',
   })
   const { show: showCenter } = useLayers(Content, {
     position: 'center',
     transitionDelay: 200,
+    dimmedType: 'hide',
   })
 
   const { show: showDragBottom } = useLayers(Content, {
     position: 'bottom',
     transitionDelay: 500,
     draggable: true,
+    dimmedType: 'hide',
   })
+
+  const { hideLatest } = useLayersUtils()
 
   return (
     <>
@@ -56,6 +67,7 @@ function Example() {
         <button onClick={() => showTop()}>Top Button</button>
         <button onClick={() => showCenter()}>Center Button</button>
         <button onClick={() => showDragBottom()}>Drag Bottom Button</button>
+        <button onClick={() => hideLatest()}>hideLatest</button>
         <div
           style={{
             width: '100%',

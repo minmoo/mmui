@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { useEffect } from 'react'
 import { CLOSE_TYPE, DimmedType } from './config/options'
 import { lockScroll, unlockScroll } from './util/scrollLock'
+import { useLayersUtils } from './hooks/useLayers'
 
 export const Container = styled.div`
   position: fixed;
@@ -32,6 +33,7 @@ interface DimmedProps {
 }
 
 export const Dimmed = ({ onClose, scrollLockElement, type }: DimmedProps) => {
+  const { getOpenLayers } = useLayersUtils()
   const handleClick = () => {
     if (type === 'closeable') {
       onClose(CLOSE_TYPE.DIMMED)
@@ -41,7 +43,10 @@ export const Dimmed = ({ onClose, scrollLockElement, type }: DimmedProps) => {
   useEffect(() => {
     lockScroll(scrollLockElement)
     return () => {
-      unlockScroll(scrollLockElement)
+      const openLayers = getOpenLayers()
+      if (openLayers.length === 0) {
+        unlockScroll(scrollLockElement)
+      }
     }
   }, [])
 

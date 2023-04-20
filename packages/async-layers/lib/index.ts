@@ -1,2 +1,2 @@
-export { useLayers, useLayersHide } from './hooks/useLayers'
+export { useLayers, useLayersUtils } from './hooks/useLayers'
 export { Provider as AsyncLayersProvider } from './Provider'

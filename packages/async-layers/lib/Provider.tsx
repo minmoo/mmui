@@ -20,7 +20,7 @@ export interface ContentProps<Props = void, Response = undefined> {
 
 export type ContentComponent<P, R> = ComponentType<ContentProps<P, R>>
 
-interface Layer {
+export interface Layer {
   component: ContentComponent<unknown, unknown>
   isOpen: boolean
   options: DefaultOptions
@@ -36,6 +36,7 @@ export interface ContextState<P, R> {
   hideAll: () => void
   hideLatest: () => void
   updateProps: (id: string, props: unknown) => void
+  getOpenLayers: () => Array<[string, Layer]>
 }
 
 export const LayersContext = createContext<ContextState<unknown, unknown>>({
@@ -46,6 +47,7 @@ export const LayersContext = createContext<ContextState<unknown, unknown>>({
   hideAll: () => undefined,
   hideLatest: () => undefined,
   updateProps: () => undefined,
+  getOpenLayers: () => [],
 })
 
 interface ProviderProps {
@@ -110,13 +112,9 @@ export const Provider = ({ children, options }: ProviderProps) => {
       },
 
       hideLatest() {
-        const latest = _.find(
-          [...layerMap].reverse(),
-          (arr) => arr[1].isOpen === true,
-        )
-        if (latest) {
-          const id = latest[0]
-          context.hide(id)
+        const latestLayer = _.last(context.getOpenLayers())
+        if (latestLayer) {
+          context.hide(latestLayer[0])
         }
       },
 
@@ -130,6 +128,10 @@ export const Provider = ({ children, options }: ProviderProps) => {
       updateProps(id, props) {
         layerMap.set(id, { ...layerMap.get(id), props } as Layer)
         forceUpdate({})
+      },
+
+      getOpenLayers() {
+        return _.filter([...layerMap], (arr) => arr[1].isOpen === true)
       },
     }),
     [forceUpdate],
