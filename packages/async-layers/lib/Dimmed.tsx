@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { CLOSE_TYPE, DimmedType } from './config/options'
 import { lockScroll, unlockScroll } from './util/scrollLock'
 import { useLayersUtils } from './hooks/useLayers'
+import _ from 'underscore'
 
 export const Container = styled.div`
   position: fixed;
@@ -43,8 +44,11 @@ export const Dimmed = ({ onClose, scrollLockElement, type }: DimmedProps) => {
   useEffect(() => {
     lockScroll(scrollLockElement)
     return () => {
-      const openLayers = getOpenLayers()
-      if (openLayers.length === 0) {
+      const openDimmedLayers = _.filter(
+        getOpenLayers(),
+        (layer) => layer[1].options.dimmedType !== 'hide',
+      )
+      if (openDimmedLayers.length === 0) {
         unlockScroll(scrollLockElement)
       }
     }
