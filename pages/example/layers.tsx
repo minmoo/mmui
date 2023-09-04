@@ -47,6 +47,17 @@ function Example() {
     dimmedType: 'hide',
   })
 
+  const { show: showDragBottomScroll } = useLayers(Content3, {
+    position: 'bottom',
+    transitionDelay: 500,
+    draggable: true,
+    dimmedType: 'hide',
+    dragOptions: {
+      minHeight: 500,
+      minY: 100,
+    },
+  })
+
   const { hideLatest } = useLayersUtils()
 
   return (
@@ -67,6 +78,9 @@ function Example() {
         <button onClick={() => showTop()}>Top Button</button>
         <button onClick={() => showCenter()}>Center Button</button>
         <button onClick={() => showDragBottom()}>Drag Bottom Button</button>
+        <button onClick={() => showDragBottomScroll()}>
+          Drag Bottom Button with Scroll
+        </button>
         <button onClick={() => hideLatest()}>hideLatest</button>
         <div
           style={{
@@ -94,6 +108,13 @@ const Box2 = styled.div`
   background: pink;
 `
 
+const Box3 = styled.div`
+  display: flex;
+  width: 700px;
+  height: 200vh;
+  background: blue;
+`
+
 function Content() {
   const { show } = useLayers(Content2, {
     position: 'center',
@@ -114,5 +135,14 @@ function Content2({ onClose }: { onClose: () => void }) {
       <button onClick={() => onClose()}>Close Button</button>
       <Box2 />
     </div>
+  )
+}
+
+function Content3() {
+  return (
+    <>
+      <h2>Content</h2>
+      <Box3 />
+    </>
   )
 }

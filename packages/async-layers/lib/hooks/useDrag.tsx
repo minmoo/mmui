@@ -77,7 +77,8 @@ export const useDrag = (
     info.current = _.extend({}, info.current, {
       isDown: true,
       startY: getClientY(e),
-      startLayerY: target.getBoundingClientRect().y,
+      // minY부터 시작하기 때문에 minY를 빼준다.
+      startLayerY: target.getBoundingClientRect().y - options.current.minY,
       prevY: getClientY(e),
       prevTransition: getComputedStyle(target).transition,
     })
@@ -108,8 +109,8 @@ export const useDrag = (
       const offsetY = currentY - info.current.startY //움직인 거리
       let nextLayerY = info.current.startLayerY + offsetY
 
-      if (nextLayerY <= options.current.minY) {
-        nextLayerY = options.current.minY
+      if (nextLayerY <= 0) {
+        nextLayerY = 0
       }
       if (nextLayerY >= options.current.maxY) {
         nextLayerY = options.current.maxY
