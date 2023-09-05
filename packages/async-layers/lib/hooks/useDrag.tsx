@@ -18,6 +18,11 @@ const getClientY = (e: DragEvent) => {
   return e.clientY
 }
 
+//! AOS에서 값이 소숫점이 나오기 때문에 오차가 1이하일 경우 같다고 판단한다.
+const isSameY = (a: number, b: number) => {
+  return Math.abs(a - b) < 1
+}
+
 type DragEvent = MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
 
 const DRAG_INFO_INIT = {
@@ -57,7 +62,8 @@ export const useDrag = (
     }
 
     // 바텀시트가 올라와있는 상태가 아닐 때는 컨텐츠 영역을 터치해도 바텀시트를 움직이는 것이 자연스럽습니다.
-    if (target.getBoundingClientRect().y !== minY) {
+    //! AOS에서 값이 소숫점이 나오기 때문에 오차가 1이하일 경우 같다고 판단한다.
+    if (!isSameY(target.getBoundingClientRect().y, minY)) {
       return true
     }
 
@@ -126,7 +132,7 @@ export const useDrag = (
 
     const currentSheetY = targetRef.current.getBoundingClientRect().y
 
-    if (currentSheetY !== options.current.minY) {
+    if (!isSameY(currentSheetY, options.current.minY)) {
       if (info.current.direction === 'down') {
         setTranslateY(options.current.maxY)
       }
@@ -150,7 +156,7 @@ export const useDrag = (
     if (!targetRef.current || !contentRef.current || !enable) return
     options.current = {
       minY,
-      maxY: window?.innerHeight - minHeight,
+      maxY: window?.innerHeight - minHeight - minY,
     }
 
     const target = targetRef.current
@@ -180,5 +186,5 @@ export const useDrag = (
         target.removeEventListener('mouseleave', onDragEnd)
       }
     }
-  }, [])
+  }, [minHeight, minY, enable])
 }

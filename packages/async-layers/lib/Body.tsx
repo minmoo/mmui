@@ -160,7 +160,9 @@ export const Body = ({ children, open, setMount, options }: BodyProps) => {
         } else {
           wrapperRef.current.style.transform = getTransformText[position].show(
             //position==='bottom' 이면서 draggable일 경우에 올라오는 크기 고정
-            draggable ? window.innerHeight - dragOptions.minHeight : 0,
+            draggable
+              ? window.innerHeight - dragOptions.minHeight - dragOptions.minY
+              : 0,
           )
         }
       }
