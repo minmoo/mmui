@@ -44,7 +44,7 @@ export const useDrag = (
   }: DragOptions,
   enable: boolean,
 ) => {
-  const info = useRef(DRAG_INFO_INIT)
+  const info = useRef({ ...DRAG_INFO_INIT })
   const options = useRef({ minY: 0, maxY: 0 })
 
   const setTranslateY = (y: number) => {
@@ -135,6 +135,7 @@ export const useDrag = (
     if (!isSameY(currentSheetY, options.current.minY)) {
       if (info.current.direction === 'down') {
         setTranslateY(options.current.maxY)
+        contentRef.current.scrollTo(0, 0)
       }
 
       if (info.current.direction === 'up') {
@@ -145,7 +146,7 @@ export const useDrag = (
     //초기화
     contentRef.current.style.overflow = 'auto'
     targetRef.current.style.transition = info.current.prevTransition
-    info.current = DRAG_INFO_INIT
+    info.current = { ...DRAG_INFO_INIT }
   }
 
   const onContentTouchStart = () => {
